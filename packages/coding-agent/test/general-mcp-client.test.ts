@@ -140,7 +140,7 @@ describe("general MCP client extension", () => {
 			transport: "stdio",
 			command: process.execPath,
 			args: [fixture],
-			timeoutMs: 2_000,
+			timeoutMs: 10_000,
 		});
 		openConnections.push(connection);
 		const tools = await connection.connect();

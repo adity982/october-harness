@@ -1,7 +1,5 @@
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { getDefaultEnvironment, StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
-import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
+import { Client, StreamableHTTPClientTransport, type Transport } from "@modelcontextprotocol/client";
+import { getDefaultEnvironment, StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { VERSION } from "../../config.ts";
 import type { McpServerSettings } from "../../core/settings-manager.ts";
 
@@ -97,10 +95,13 @@ export class GenericMcpConnection {
 	}
 
 	async callTool(name: string, args: Record<string, unknown>, signal?: AbortSignal): Promise<GenericMcpToolResult> {
-		const result = await this.client.callTool({ name, arguments: args }, undefined, {
-			signal,
-			timeout: this.settings.timeoutMs ?? DEFAULT_CALL_TIMEOUT_MS,
-		});
+		const result = await this.client.callTool(
+			{ name, arguments: args },
+			{
+				signal,
+				timeout: this.settings.timeoutMs ?? DEFAULT_CALL_TIMEOUT_MS,
+			},
+		);
 		if (!Array.isArray(result.content)) throw new Error("tools/call returned malformed content");
 		const content: GenericMcpContentPart[] = [];
 		for (const part of result.content) {

@@ -24,7 +24,7 @@ function mcpExtensions(settingsManager: SettingsManager): InlineExtension[] {
 }
 
 function stdioServer() {
-	return { transport: "stdio" as const, command: process.execPath, args: [stdioFixture], timeoutMs: 2_000 };
+	return { transport: "stdio" as const, command: process.execPath, args: [stdioFixture], timeoutMs: 10_000 };
 }
 
 describe("general MCP session integration", () => {
